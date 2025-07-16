@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Problem-Solution Fit Scorecard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+        .score-input {
+            width: 4rem;
+            text-align: center;
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 0.375rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .score-display {
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            color: white;
+        }
+        .evidence-textarea {
+            width: 100%;
+            min-height: 80px;
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #475569; /* slate-600 */
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #1e293b; /* slate-800 */
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.75rem;
+            font-weight: 400;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-800">Problem-Solution Fit Scorecard</h1>
+            <p class="text-slate-500 mt-2">An interactive tool to evaluate the viability of your product strategy.</p>
+        </div>
+
+        <!-- Overall Score -->
+        <div class="card p-6 mb-8 sticky top-4 z-10">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <h2 class="text-2xl font-bold text-slate-800">Overall Fit Score</h2>
+                <div class="flex items-center gap-4">
+                    <div id="overall-score-display" class="text-4xl font-bold">0.0</div>
+                    <div id="overall-verdict" class="px-4 py-2 rounded-full text-white font-semibold text-lg">Calculating...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Section 1: Customer Profile -->
+            <div class="card p-6" data-section="customer">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">1. Customer Profile</h3>
+                        <p class="text-sm text-slate-500">How well do we understand our user?</p>
+                    </div>
+                    <div id="customer-score" class="score-display">0.0</div>
+                </div>
+                <div class="space-y-6">
+                    <!-- Criterion 1.1 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Segment Definition & Size
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">Is the target segment specific, reachable, and large enough to be a viable business?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="segment">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: Market research data, persona documents, TAM/SAM/SOM analysis..."></textarea>
+                    </div>
+                    <!-- Criterion 1.2 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">"Jobs to be Done"
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">How critical are the functional or emotional jobs the customer is trying to accomplish?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="jobs">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: User interview quotes, observation notes, JTBD frameworks..."></textarea>
+                    </div>
+                     <!-- Criterion 1.3 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Customer Pains
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">How severe are the obstacles, risks, and negative outcomes they face? Are they 'vitamins' or 'painkillers'?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="pains">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: Direct quotes about frustrations, support ticket themes, forum complaints..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Problem Space -->
+            <div class="card p-6" data-section="problem">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">2. Problem Space</h3>
+                        <p class="text-sm text-slate-500">How valuable is the problem we're solving?</p>
+                    </div>
+                    <div id="problem-score" class="score-display">0.0</div>
+                </div>
+                <div class="space-y-6">
+                    <!-- Criterion 2.1 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Problem Severity & Frequency
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">Is this a top-3 priority for the customer? Is it a 'hair on fire' problem? How often does it occur?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="severity">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: User quotes on problem ranking, data on frequency of issue..."></textarea>
+                    </div>
+                    <!-- Criterion 2.2 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Willingness to Pay
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">Is there evidence customers spend money or significant time to solve this now? Have they committed to paying?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="willingness">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: Purchase intent surveys, budget allocation data, analysis of competitor pricing..."></textarea>
+                    </div>
+                     <!-- Criterion 2.3 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Current Alternatives
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">How do they solve this now (incl. spreadsheets, manual processes)? Are they satisfied with these solutions?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="alternatives">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: Competitor analysis, user descriptions of workarounds, teardowns of other tools..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Solution -->
+            <div class="card p-6" data-section="solution">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">3. Solution</h3>
+                        <p class="text-sm text-slate-500">How well does our product fit the problem?</p>
+                    </div>
+                    <div id="solution-score" class="score-display">0.0</div>
+                </div>
+                <div class="space-y-6">
+                    <!-- Criterion 3.1 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Value Prop Resonance
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">Does our core message connect instantly? Do users' eyes light up when they hear it?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="resonance">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: Message testing results, user reactions during demos, A/B test data on landing pages..."></textarea>
+                    </div>
+                    <!-- Criterion 3.2 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Feature-to-Problem Map
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">Do our key features directly and effectively address the validated customer pains? Is there feature bloat?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="mapping">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: Usability test results, feature usage data, user feedback on specific features..."></textarea>
+                    </div>
+                     <!-- Criterion 3.3 -->
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <label class="font-semibold text-slate-700">Differentiator Strength
+                                <span class="tooltip">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span class="tooltiptext">Is our 'unique selling proposition' truly unique and valuable to the customer, or just to us?</span>
+                                </span>
+                            </label>
+                            <input type="number" min="1" max="5" value="1" class="score-input" data-criterion="differentiation">
+                        </div>
+                        <textarea class="evidence-textarea" placeholder="Evidence: Head-to-head competitive testing, user preference data, win/loss analysis from sales..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary Section -->
+        <div class="card p-6 mt-8">
+            <h3 class="text-2xl font-bold text-slate-800 mb-4">Summary & Strategic Recommendations</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Riskiest Assumptions to Address Next</h4>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li><textarea class="w-full border rounded p-1" placeholder="Example: That 'SMB Marketing Managers' is a specific enough segment."></textarea></li>
+                        <li><textarea class="w-full border rounded p-1" placeholder="Example: That customers are willing to switch from their current 'good enough' spreadsheet solution."></textarea></li>
+                        <li><textarea class="w-full border rounded p-1" placeholder="Example: That our 'AI-powered' differentiator is perceived as valuable and not just a gimmick."></textarea></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Actionable Next Steps</h4>
+                     <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li><textarea class="w-full border rounded p-1" placeholder="Example: Conduct 5-7 new interviews with a narrower segment: 'Marketing Managers at B2B SaaS companies with 50-200 employees'."></textarea></li>
+                        <li><textarea class="w-full border rounded p-1" placeholder="Example: Run a 'smoke test' landing page with the refined value prop to measure sign-up intent."></textarea></li>
+                        <li><textarea class="w-full border rounded p-1" placeholder="Example: Build a low-fi prototype of the core workflow to test against a manual spreadsheet process."></textarea></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('[data-section]');
+            const inputs = document.querySelectorAll('.score-input');
+
+            const scoreWeights = {
+                customer: 0.35,
+                problem: 0.45,
+                solution: 0.20
+            };
+
+            function getScoreColor(score) {
+                if (score >= 4.0) return 'bg-emerald-500'; // green-500
+                if (score >= 2.5) return 'bg-amber-500'; // yellow-500
+                return 'bg-red-500'; // red-500
+            }
+
+            function getVerdict(score) {
+                if (score >= 4.0) return { text: 'Strong Fit', color: 'bg-emerald-500' };
+                if (score >= 2.5) return { text: 'Needs Refinement', color: 'bg-amber-500' };
+                return { text: 'Significant Mismatch', color: 'bg-red-500' };
+            }
+
+            function calculateScores() {
+                const sectionScores = {};
+
+                sections.forEach(section => {
+                    const sectionName = section.dataset.section;
+                    const sectionInputs = section.querySelectorAll('.score-input');
+                    let total = 0;
+                    sectionInputs.forEach(input => {
+                        total += parseInt(input.value);
+                    });
+                    const avgScore = total / sectionInputs.length;
+                    sectionScores[sectionName] = avgScore;
+
+                    const scoreDisplay = document.getElementById(`${sectionName}-score`);
+                    scoreDisplay.textContent = avgScore.toFixed(1);
+                    scoreDisplay.className = `score-display ${getScoreColor(avgScore)}`;
+                });
+
+                let overallScore = 0;
+                for (const sectionName in sectionScores) {
+                    overallScore += sectionScores[sectionName] * scoreWeights[sectionName];
+                }
+
+                const overallScoreDisplay = document.getElementById('overall-score-display');
+                overallScoreDisplay.textContent = overallScore.toFixed(1);
+
+                const verdict = getVerdict(overallScore);
+                const overallVerdictDisplay = document.getElementById('overall-verdict');
+                overallVerdictDisplay.textContent = verdict.text;
+                overallVerdictDisplay.className = `px-4 py-2 rounded-full text-white font-semibold text-lg ${verdict.color}`;
+            }
+
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateScores);
+            });
+
+            // Initial calculation on load
+            calculateScores();
+        });
+    </script>
+</body>
+</html>
